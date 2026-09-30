@@ -1,49 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Plan B Activity Folder</title>
-    <link rel="stylesheet" href="style.css">
+<title>PLAN B - Cisco Activity Folder</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1>PLAN B</h1>
+<h1>PLAN B</h1>
+<p class="subtitle">Cisco Packet Tracer Activity Folder</p>
 
-    <div class="folder">
+<div class="box">
 
-        <h2>CISCO PACKET TRACER</h2>
+<h2>📁 CISCO PACKET TRACER</h2>
 
-        <button onclick="openActivity('all')">
-            📂 ALL 
-        </button>
-
-        <button onclick="openActivity('router')">
-            📄 ROUTER 1
-        </button>
-
-        <button onclick="openActivity('switch1')">
-            📄 SWITCH 1
-        </button>
-
-        <button onclick="openActivity('switch2')">
-            📄 SWITCH 2
-        </button>
-
-    </div>
-
-
-    <div id="content" class="content">
-
-        <h2>Select Activity</h2>
-        <p>Choose an activity to display the configuration.</p>
-
-    </div>
-
+<button onclick="openActivity('all')">📂 ALL ACTIVITIES</button>
+<button onclick="openActivity('router')">📄 ROUTER 1</button>
+<button onclick="openActivity('switch1')">📄 SWITCH 1</button>
+<button onclick="openActivity('switch2')">📄 SWITCH 2</button>
+<button onclick="openActivity('backup')">📁 BACKUP FILES</button>
 
 </div>
 
+<div id="content" class="box output">
+<h2>Select Folder</h2>
+<p>Choose an activity to display configuration.</p>
+</div>
+
+</div>
 
 <script src="script.js"></script>
 
