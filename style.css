@@ -1,0 +1,90 @@
+body{
+
+    font-family: Arial, sans-serif;
+    background:#f1f5f9;
+
+}
+
+
+.container{
+
+    width:85%;
+    margin:40px auto;
+
+}
+
+
+h1{
+
+    text-align:center;
+    font-size:35px;
+
+}
+
+
+.folder,
+.content{
+
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:20px;
+
+}
+
+
+button{
+
+    width:100%;
+    padding:12px;
+    margin:7px 0;
+
+    border:none;
+    border-radius:8px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+}
+
+
+button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+pre{
+
+    background:#111827;
+    color:#22c55e;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    line-height:1.4;
+
+    overflow:auto;
+
+}
+
+
+.copy{
+
+    background:#16a34a;
+
+}
+
+h3{
+
+    margin-top:25px;
+
+}
