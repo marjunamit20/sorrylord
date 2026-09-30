@@ -7,115 +7,222 @@ let router=`ROUTER 1
 en
 conf t
 hostname R1
-enable secret class3D
+enable secret class3B
 no ip domain-lookup
 banner motd #Unauthorized Access is Prohibited#
-
 line console 0
-password cisco3D
+password cisco3B
 login
-exit
+ex
 
 int g0/1
 no shutdown
-exit
+ex
 
 int g0/1.10
 encapsulation dot1Q 10
 ip address 192.168.10.1 255.255.255.0
-exit
+ex
 
 int g0/1.20
 encapsulation dot1Q 20
 ip address 192.168.20.1 255.255.255.0
-exit
+ex
 
 int g0/1.30
 encapsulation dot1Q 30
 ip address 192.168.30.1 255.255.255.0
-exit
+ex
+
+int g0/1.99
+encapsulation dot1Q 99 native
+no ip address
+ex
+
+ip dhcp excluded-address 192.168.10.1 192.168.10.9
+ip dhcp excluded-address 192.168.20.1 192.168.20.9
+ip dhcp excluded-address 192.168.30.1 192.168.30.9
 
 ip dhcp pool VLAN10
 network 192.168.10.0 255.255.255.0
 default-router 192.168.10.1
+ex
 
 ip dhcp pool VLAN20
 network 192.168.20.0 255.255.255.0
 default-router 192.168.20.1
+ex
 
 ip dhcp pool VLAN30
 network 192.168.30.0 255.255.255.0
 default-router 192.168.30.1
-
+ex
 end
-wr`;
+wr 
+
+(CHECKING)
+
+sh ip int br
+sh ip dhcp pool
+sh ip dhcp binding
+sh ip route
+
+router - ping 192.68.10.10
+PC2 - ping 192.168.20.10
+PC3 - ping 192.168.30.10
+`;
 
 let switch1=`SWITCH 1
 
+SWITCH 1
 en
 conf t
 hostname S1
+enable secret class3B
+no ip domain-lookup
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password cisco3B
+login
+ex
 
 vlan 10
 name Faculty
+ex
 
 vlan 20
 name Admin
+ex
 
 vlan 30
 name Student
+ex
 
 vlan 99
 name Native
+ex
 
 int fa0/3
 switchport mode access
 switchport access vlan 10
 spanning-tree portfast
+no shutdown
+ex
 
 int fa0/4
 switchport mode access
 switchport access vlan 20
 spanning-tree portfast
+no shutdown
+ex
+
+int fa0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+no shutdown
+ex
+
+int range fa0/23-24
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+channel-group 1 mode active
+no shutdown
+ex
 
 int port-channel 1
 switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+ex
 
+spanning-tree mode rapid-pvst
 spanning-tree vlan 10,20,30 root primary
-
 end
-wr`;
+wr 
+
+(CHEKING)
+sh vlan br
+sh int trunk
+sh etherchannel summary
+`;
 
 let switch2=`SWITCH 2
 
+SWITCH 2
 en
 conf t
 hostname S2
+enable secret class3B
+no ip domain-lookup
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password cisco3B
+login
+ex
 
 vlan 10
 name Faculty
+ex
 
 vlan 20
 name Admin
+ex
 
 vlan 30
 name Student
+ex
 
 vlan 99
 name Native
+ex
 
 int fa0/3
 switchport mode access
 switchport access vlan 30
 spanning-tree portfast
+no shutdown
+ex
+
+int range fa0/23-24
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+channel-group 1 mode active
+no shutdown
+ex
 
 int port-channel 1
 switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+ex
 
+spanning-tree mode rapid-pvst
 spanning-tree vlan 10,20,30 root secondary
-
 end
-wr`;
+wr 
+
+(CHEKING)
+sh vlan br
+sh int trunk
+sh etherchannel summary 
+
+(PING TEST)
+router - ping 192.168.10.10
+PC1 
+- ping 192.168.20.10
+- ping 192.168.30.10
+PC2
+- ping 192.168.20.1
+- ping 192.168.10.10
+- ping 192.168.30.10
+PC3 
+- ping 192.168.30.1
+- ping 192.168.10.10
+- ping 192.168.20.10
+`;
 
 if(type=="all"){
 show("ALL ACTIVITIES",router+"\n\n==========\n\n"+switch1+"\n\n==========\n\n"+switch2);
