@@ -244,185 +244,144 @@ if(type=="backup"){
 show("BACKUP FILES",
 `📁 BACKUP FOLDER
 
-R1 
-en 
+ROUTER 1
+enable
+configure terminal
 hostname R1
 enable secret class2
+no ip domain-lookup
+banner motd #Unauthorized Access is Prohibited#
 line console 0
 password cisco2
 login
-exi 
-banner motd $Unauthorizes Access is Prohibited$
-no ip domain-lookup
-
-inter g0/1
+exit
+interface g0/1
 no shutdown
-exi
-
-inter g0/1.10
-encapsulation dot1q 10
+exit
+interface g0/1.10
+encapsulation dot1Q 10
 ip address 192.168.10.1 255.255.255.0
-exi
-inter g0/1.20
-encapsulation dot1q 20
+exit
+interface g0/1.20
+encapsulation dot1Q 20
 ip address 192.168.20.1 255.255.255.0
-exi 
-
-Inter g0/1.30
-encapsulation dot1q 30
+exit
+interface g0/1.30
+encapsulation dot1Q 30
 ip address 192.168.30.1 255.255.255.0
-exi
-
-Inter g0/1.99
-encapsulation dot1q 99 native
+exit
+interface g0/1.99
+encapsulation dot1Q 99 native
 no ip address
-exi
-
+exit
 ip dhcp excluded-address 192.168.10.1 192.168.10.9
 ip dhcp excluded-address 192.168.20.1 192.168.20.9
 ip dhcp excluded-address 192.168.30.1 192.168.30.9
-
-ip dhcp pool vlan10
+ip dhcp pool VLAN10
 network 192.168.10.0 255.255.255.0
 default-router 192.168.10.1
-exi
-
-ip dhcp pool vlan20
+exit ip dhcp pool VLAN20
 network 192.168.20.0 255.255.255.0
 default-router 192.168.20.1
-exi
-
-ip dhcp pool vlan30
+exit
+ip dhcp pool VLAN30
 network 192.168.30.0 255.255.255.0
 default-router 192.168.30.1
-exi
+exit
+end
+copy running-config startup-config 
 
-en 
-wr m
-
-S1
-en 
-conf t
+SWITCH 1
+enable
+configure terminal
 hostname S1
 enable secret class2
+no ip domain-lookup
+banner motd #Unauthorized Access is Prohibited#
 line console 0
 password cisco2
-login 
-exi
-banner motd $Unauthorized Access is Prohibited$
-no ip domain-lookup
-
+login
+exit
 vlan 10
 name Faculty
-exi
-
+exit
 vlan 20
 name Admin
-exi
-
-vlan 30 
+exit
+vlan 30
 name Student
-exi
-
+exit
 vlan 99
 name Native
-exi
-
-inter fa0/3
-switchport mode access 
+exit
+interface fa0/3
+switchport mode access
 switchport access vlan 10
-exi
-
-inter fa0/4
-switchport mode access 
+exit
+interface fa0/4
+switchport mode access
 switchport access vlan 20
-exi
-
-inter fa0/5
-switchport mode access 
-switchport access 30
-exi
-
-Inter range fa0/23-24
-shutdown
-exi
-
-Inter range fa0/23-24
+Exit
+interface fa0/5
+switchport mode access switchport access vlan 30
+exit
+interface range fa0/23 - 24
 channel-group 1 mode active
-exi
-
-inter port-channel 1
-switchport mode trunk
-switchport trunk native vlan 99
-switchport trunk allowed vlan 10,20,30,99
-exi
-
-inter range fa0/23-24
-no shutdown
-exi
-
-interface f0/1
+exit
+interface port-channel 1
 switchport mode trunk
 switchport trunk native vlan 99
 switchport trunk allowed vlan 10,20,30,99
 exit
-
-spanning-tree mode rapid-pvst
-spanning-tree vlan 10,20,30 root primary
-
-S2
-en 
-conf t 
-hostname S2
-enable secret class2
-line console 0
-password cisco2
-login
-exi
-banner motd $Unauthorized Access is Prohibited$
-no ip domain-lookup
-
-vlan 10
-name Faculty
-exi
-vlan 20
-name Admin
-exi
-vlan 30
-name Student 
-exi
-vlan 99
-name Native 
-exi
-
-inter fa0/3 
-switchport mode access
-switchport access vlan 30
-exi
-
-inter range fa0/23-24
-shutdown
-exi
-
-inter range fa0/23-24
-channel-group 1 mode active
-exi
-
-Inter port-channel 1
+interface fa0/1
 switchport mode trunk
 switchport trunk native vlan 99
 switchport trunk allowed vlan 10,20,30,99
-exi
-
-inter range fa0/23-24
-no shutdown 
-exi
-
+exit
 spanning-tree mode rapid-pvst
-spanning-tree vlan 10,20,30 root secondary
-
+spanning-tree vlan10,20,30 root primary
 end
-wr m
+Write memory
+
+ SWITCH 2
+enable
+configure terminal
+hostname S2
+enable secret class2
+no ip domain-lookup
+banner motd #Unauthorized Access is Prohibited#
+line console 0
+password cisco2
+login
+exit
+vlan 10
+name Faculty
+exit
+vlan 20
+name Admin
+exit
+vlan 30
+name Student
+exit
+vlan 99
+name Native
+exit
+interface fa0/3
+switchport mode access
+switchport access vlan 30
+Exit
+end
+interface range fa0/23 - 24
+channel-group 1 mode active
+exit
+interface port-channel 1 switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+exit
+spanning-tree mode rapid-pvst
+spanning-tree vlan10,20,30 root secondary
+end
+Write memory
 
 `);
 }
